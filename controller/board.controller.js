@@ -11,7 +11,7 @@ class BoardController {
       const board = await BoardService.createNewBoard({ boardName });
       return res.json(board);
     } catch (err) {
-      return res.status(500).json({ error: "Something went wrong!" });
+      return res.status(500).json({ error: "Something went wrong!", err });
     }
   }
 
@@ -49,7 +49,8 @@ class BoardController {
     }
   }
   async getTasks(req, res) {
-    const { boardId, limit = 10, offset = 0 } = req.body;
+    const { boardId } = req.params;
+    const { limit = 10, offset = 0 } = req.query;
     try {
       const tasks = await BoardService.getTasks({
         boardId,

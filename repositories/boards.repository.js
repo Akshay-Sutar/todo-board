@@ -3,7 +3,7 @@ const dbConnection = require("../utils/database");
 class BoardRepository {
   async createBoard({ boardId, boardName }) {
     const query =
-      "INSERT INTO `boards` (`board_name`,`board_id`,`deleted`) VALUES (?,?) ";
+      "INSERT INTO `boards` (`board_name`,`board_id`) VALUES (?,?) ";
     const queryParams = [boardName, boardId];
     const res = await dbConnection.execute(query, queryParams);
     dbConnection.releaseConnection();
@@ -11,7 +11,8 @@ class BoardRepository {
   }
 
   async getBoards({ limit = 10, offset = 0 }) {
-    const query = "SELECT * from `boards` WHERE `deleted` = 0 LIMIT ? OFFSET ?";
+    const query =
+      "SELECT *,  (SELECT COUNT(*) from `tasks` where `tasks`.`board_id` = `boards`.`board_id`) as tasks_count from `boards` WHERE `deleted` = 0 LIMIT ? OFFSET ?";
     const queryParams = [limit, offset];
     const res = await dbConnection.execute(query, queryParams);
     dbConnection.releaseConnection();

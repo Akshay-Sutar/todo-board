@@ -16,6 +16,7 @@ class BoardService {
     return res[0].map((board) => ({
       id: board.board_id,
       name: board.board_name,
+      tasksCount: board.tasks_count,
     }));
   }
 
@@ -33,6 +34,7 @@ class BoardService {
   }
 
   async updateTask({ taskId, status }) {
+    status = status ? 1 : 0;
     const res = await BoardRepository.updateTask({ taskId, status });
     return res[0]["affectedRows"] > 0 ? { taskId } : null;
   }
