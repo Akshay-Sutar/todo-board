@@ -19,6 +19,7 @@ app.get("/boards", boardController.getBoards);
 app.post("/task", boardController.createTask);
 app.post("/update-task", boardController.updateTask);
 app.get("/tasks/:boardId", boardController.getTasks);
+app.post("/remove-task", boardController.removeTask);
 
 app.listen(config.SERVER_PORT, () => {
   console.log(`Server started at PORT ${config.SERVER_PORT}`);

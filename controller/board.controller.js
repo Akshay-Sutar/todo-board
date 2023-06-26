@@ -62,6 +62,15 @@ class BoardController {
       return res.status(500).json({ error: "Something went wrong!" });
     }
   }
+  async removeTask(req, res) {
+    const { taskId, boardId } = req.body;
+    try {
+      const success = await BoardService.removeTask({ taskId, boardId });
+      return res.status(200).json({ success: success });
+    } catch (err) {
+      return res.status(500).json({ error: "Something went wrong!" });
+    }
+  }
 }
 
 module.exports = new BoardController();

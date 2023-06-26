@@ -14,8 +14,8 @@ class BoardService {
     const res = await BoardRepository.getBoards({ limit, offset });
 
     return res[0].map((board) => ({
-      id: board.board_id,
-      name: board.board_name,
+      boardId: board.board_id,
+      boardName: board.board_name,
       tasksCount: board.tasks_count,
     }));
   }
@@ -42,12 +42,17 @@ class BoardService {
   async getTasks({ boardId, limit = 10, offset = 0 }) {
     const res = await BoardRepository.getTasks({ boardId, limit, offset });
     return res[0].map((task) => ({
-      id: task.task_id,
-      name: task.task_name,
-      description: task.task_description,
+      taskId: task.task_id,
+      taskName: task.task_name,
+      taskDescription: task.task_description,
       boardId: task.board_id,
-      done: task.status == 1 ? true : false,
+      taskDone: task.status == 1 ? true : false,
     }));
+  }
+
+  async removeTask({ taskId, boardId }) {
+    const res = await BoardRepository.removeTask({ taskId, boardId });
+    return res[0]["affectedRows"] > 0 ? true : false;
   }
 }
 

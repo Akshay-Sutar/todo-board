@@ -12,7 +12,7 @@ class BoardRepository {
 
   async getBoards({ limit = 10, offset = 0 }) {
     const query =
-      "SELECT *,  (SELECT COUNT(*) from `tasks` where `tasks`.`board_id` = `boards`.`board_id`) as tasks_count from `boards` WHERE `deleted` = 0 LIMIT ? OFFSET ?";
+      "SELECT *,  (SELECT COUNT(*) from `tasks` where `tasks`.`board_id` = `boards`.`board_id` and `tasks`.`deleted`=0) as tasks_count from `boards` WHERE `deleted` = 0 LIMIT ? OFFSET ?";
     const queryParams = [limit, offset];
     const res = await dbConnection.execute(query, queryParams);
     dbConnection.releaseConnection();
@@ -43,6 +43,16 @@ class BoardRepository {
       "SELECT * from `tasks` WHERE `deleted` = 0 AND `board_id`= ? LIMIT ? OFFSET ?";
 
     const queryParams = [boardId, limit, offset];
+
+    const res = await dbConnection.execute(query, queryParams);
+    dbConnection.releaseConnection();
+    return res;
+  }
+
+  async removeTask({ taskId, boardId }) {
+    const query =
+      "UPDATE `tasks` SET `deleted` = 1 where `task_id` = ? AND `board_id` = ?";
+    const queryParams = [taskId, boardId];
 
     const res = await dbConnection.execute(query, queryParams);
     dbConnection.releaseConnection();
