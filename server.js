@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  return res.json(config);
+  return res.json("Hello");
 });
 
 app.post("/board", boardController.createBoard);
