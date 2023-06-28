@@ -10,6 +10,11 @@ class BoardService {
     return res[0]["affectedRows"] > 0 ? { boardId, boardName } : null;
   }
 
+  async updateBoard({ boardName, boardId }) {
+    const res = await BoardRepository.updateBoard({ boardId, boardName });
+    return res[0]["affectedRows"] > 0 ? { boardId } : null;
+  }
+
   async getBoards({ limit = 10, offset = 0 }) {
     const res = await BoardRepository.getBoards({ limit, offset });
 

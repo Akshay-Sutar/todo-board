@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/board", boardController.createBoard);
+app.post("/update-board", boardController.updateBoard);
 app.get("/boards", boardController.getBoards);
 app.post("/task", boardController.createTask);
 app.post("/update-task", boardController.updateTask);

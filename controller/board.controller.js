@@ -11,7 +11,17 @@ class BoardController {
       const board = await BoardService.createNewBoard({ boardName });
       return res.json(board);
     } catch (err) {
-      return res.status(500).json({ error: "Something went wrong!", err });
+      return res.status(500).json({ error: "Something went wrong!" });
+    }
+  }
+  async updateBoard(req, res) {
+    const { boardName, boardId } = req.body;
+
+    try {
+      const board = await BoardService.updateBoard({ boardName, boardId });
+      return res.json(board);
+    } catch (err) {
+      return res.status(500).json({ error: "Something went wrong!" });
     }
   }
 

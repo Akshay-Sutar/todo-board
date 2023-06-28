@@ -29,6 +29,15 @@ class BoardRepository {
     return res;
   }
 
+  async updateBoard({ boardId, boardName }) {
+    const query = "UPDATE `boards` SET `board_name` = ? where `board_id` = ?";
+    const queryParams = [boardName, boardId];
+
+    const res = await dbConnection.execute(query, queryParams);
+    dbConnection.releaseConnection();
+    return res;
+  }
+
   async updateTask({ taskId, status }) {
     const query = "UPDATE `tasks` SET `status` = ? where `task_id` = ?";
     const queryParams = [status, taskId];
